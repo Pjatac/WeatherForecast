@@ -1,0 +1,42 @@
+﻿@model (List<int>, List<double>, string)
+<div>@Model.Item3</div>
+<div id="chart">
+
+</div>
+
+<script>
+        $(document).ready(() => {
+        let data1 = JSON.parse('@Html.Raw(Json.Serialize(@Model.Item1))');
+        data1 = data1.map(val => new Date(val * 1000));
+        let data2 = JSON.parse('@Html.Raw(Json.Serialize(@Model.Item2))');
+        let chartData1 = [];
+        let chartData2 = [];
+        //Build chart column as ['name', data1, data2, ...]
+        chartData1.push("x");
+        chartData2.push("Temperature");
+        chartData1 = chartData1.concat(data1);
+        chartData2 = chartData2.concat(data2);
+        let chart = c3.generate({
+            bindto: '#chart',
+            data: {
+                x: 'x',
+                columns: [
+                    chartData1,
+                    chartData2
+                ]
+            },
+            axis: {
+                y: {
+                    label: 'Temperature'//Add name for axis Y
+                },
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d %H:%M'
+                    },
+                    label: 'DateTime'//Add name for axis X
+                }
+            }
+        });
+    })
+</script>

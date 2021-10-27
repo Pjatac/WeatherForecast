@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Weather Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div>
+        Press for getting Tel Aviv weather forecast:
+    </div>
+    <input id="getForecast" type="button" value="Get forecast" class="btn btn-primary">
+    <div id="forecast">
+
+    </div>
+</div>
+@section scripts {
+    <script>
+    var url = '@Html.Raw(@Url.Action("GetForecastForMVC", "Weather", new Coordinates(32.0853, 34.7818)))';
+        $('#getForecast').click(function() {
+        $('#forecast').load(url);
+    })
+    </script>
+}
